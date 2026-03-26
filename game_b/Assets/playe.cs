@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
 
 public class playe : MonoBehaviour
 {
@@ -31,17 +33,17 @@ public class playe : MonoBehaviour
     }
     void Update()
     {
-        if(movelnput.x > 0)
+        if (movelnput.x > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        else if(movelnput.x < 0)
+        else if (movelnput.x < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
         transform.Translate(Vector3.right * moveSpssd * movelnput.x * Time.deltaTime);
 
-        if(movelnput.magnitude > 0)
+        if (movelnput.magnitude > 0)
         {
             myAnimator.SetBool("move", true);
         }
@@ -50,5 +52,18 @@ public class playe : MonoBehaviour
             myAnimator.SetBool("move", false);
         }
         transform.Translate(Vector3.right * moveSpssd * movelnput.x * Time.deltaTime);
+
+    }
+        private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.name == "death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            SceneManager.LoadScene("playscene_" + collision.name);
+        }
     }
 }
+
